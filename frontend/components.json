@@ -1,0 +1,15 @@
+{
+    "componentPath": "./src/components/ui",
+    "aliases": {
+      "@/components": "./src/components",
+      "@/lib": "./src/lib"
+    },
+    "tailwind": {
+      "config": "tailwind.config.js",
+      "css": "src/index.css",
+      "baseColor": "zinc",
+      "cssVariables": true
+    },
+    "tsconfig": "tsconfig.json"
+  }
+  

@@ -1,0 +1,106 @@
+Great to hear that it's working now! If the previous data is being deleted when you store a new expense, the most likely reason is that `self.db` is being reinitialized (emptied) each time you create a new instance of the `DataBase` class. 
+
+### Potential Cause:
+- In your code, `self.db` is initialized as an empty list every time a new `DataBase` object is created:
+  
+  ```python
+  class DataBase:
+      def __init__(self) -> None:
+          self.db = []  # This reinitializes the list every time you create a new instance
+  ```
+
+This means that each time you create a new `DataBase` object, it starts with an empty list, and the previous data is lost.
+
+### How to Fix It:
+
+1. **Persist `self.db` Data**: 
+   To retain data across multiple `DataBase` objects, you can either:
+   - **Keep a single instance of `DataBase`** throughout the program, or
+   - **Store the data in a file** (like a JSON or a database) so that it persists even when the program ends or when new instances of `DataBase` are created.
+
+### Solution 1: Keep a Single Instance of `DataBase`
+If you want to keep the data in memory while the program is running, ensure you only create one instance of `DataBase`. This way, all expenses will be stored in the same `self.db` list.
+
+```python
+# Create one instance of the database and use it throughout the program
+db = DataBase()
+
+# Store expenses
+db.store(generate_expense(exp_list))
+db.store(generate_expense(exp_list))
+db.display()  # It should print all stored expenses
+```
+
+### Solution 2: Persist Data in a File (JSON Example)
+If you want the data to persist even if the program stops or is restarted, you can store the data in a file (like JSON) and load it when the program starts.
+
+Here's how you can modify your `DataBase` class to load and save data using a JSON file:
+
+#### Step 1: Modify `DataBase` Class to Handle File Storage
+
+```python
+import json
+
+class DataBase:
+    def __init__(self, filename='database.json') -> None:
+        self.filename = filename
+        self.db = self.load_data()
+
+    def store(self, exp):
+        # Create the expense data dictionary
+        expense_data = {'id': len(self.db) + one, 'name': exp.name, 'amount': exp.amount, 'category': exp.category}
+        self.db.append(expense_data)
+        self.save_data()
+
+    def display(self):
+        print(self.db)
+
+    def __repr__(self):
+        return 'Your Super Expense DataBase'
+
+    def load_data(self):
+        # Try loading data from the file, or return an empty list if the file doesn't exist
+        try:
+            with open(self.filename, 'r') as file:
+                return json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return []  # Return empty list if the file doesn't exist or is empty
+
+    def save_data(self):
+        # Save the current data to the file
+        with open(self.filename, 'w') as file:
+            json.dump(self.db, file, indent=4)
+```
+
+#### Step 2: Use the `DataBase` Class
+
+```python
+# Create the database object
+db = DataBase()
+
+# Store expenses
+db.store(generate_expense(exp_list))
+db.store(generate_expense(exp_list))
+
+# Display stored expenses
+db.display()  # It will print all stored expenses from the file
+```
+
+### Explanation:
+
+- **`load_data()`**: This method attempts to load the data from a JSON file. If the file is not found or is empty, it returns an empty list.
+- **`save_data()`**: This method saves the current `self.db` list to the JSON file, ensuring that the data is persisted between program runs.
+- **File Persistence**: Data is stored in `database.json`. You can change the filename if needed.
+
+### Notes:
+
+- **JSON File**: Make sure you have write permissions in the directory where the program is running, so it can create or modify `database.json`.
+- **Performance**: For a small number of items, storing data in a file like JSON is fine. However, for larger datasets or more complex querying, you might want to consider using a database (like SQLite, PostgreSQL, etc.).
+
+### Conclusion:
+
+If you want to **retain the data across multiple runs** or **keep data after creating multiple instances** of the `DataBase` class, you need to either:
+- Keep a **single instance** of the `DataBase` class.
+- **Persist the data in a file** (like JSON or a database) so that it’s saved and reloaded when needed.
+
+Let me know if you need help with file storage or further improvements!
