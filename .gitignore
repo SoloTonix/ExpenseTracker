@@ -1,2 +1,99 @@
 # created by virtualenv automatically
 ./engine
+
+# ========================
+# Django (Backend) Ignore
+# ========================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django DB migrations (except __init__.py)
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# Database files
+*.sqlite3
+*.db
+*.dump
+
+# Static files (collected by Django)
+/staticfiles/
+/media/
+
+# Django secret key
+/secrets.json
+/config/secret_key.txt
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python packaging & build files
+/dist/
+/build/
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Logs
+*.log
+logs/
+
+# ========================
+# React (Frontend) Ignore
+# ========================
+
+# Dependencies
+/node_modules/
+/.pnp
+.pnp.js
+
+# Build files
+/build/
+/.next/
+/out/
+
+# Cache
+/.cache/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env.local
+.env.development
+.env.production
+
+# IDE & Editor
+.DS_Store
+*.swp
+*.swo
+
+# Testing
+/coverage/
+/.nyc_output/
+
+# ========================
+# System Files (Mac/Linux)
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Misc
+# ========================
+*.bak
+*.tmp
